@@ -12,6 +12,8 @@ export const registerUser = async(name,email,password) => {
 }
 
 export const loginUser = async(email,password) => {
+    console.log("Login attempt for email:", email);
+    
     const user = await findUserByEmailAndPassword(email);
 
     if(!user){
@@ -28,6 +30,9 @@ export const loginUser = async(email,password) => {
         }
 
         const token = signToken({id : user._id});
+        console.log("Generated token:", token);
+        console.log("User found:", user);
+        
         return {token, user};
     }
     catch(error){

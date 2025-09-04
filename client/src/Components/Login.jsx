@@ -73,9 +73,9 @@ export default function Login({state}) {
         </form>
         <p className="mt-4 text-sm text-center">
           Don’t have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline" onClick={() => state(false)}>
+          <span className="text-blue-600 hover:underline" onClick={() => state(false)}>
             Register
-          </Link>
+          </span>
         </p>
       </div>
     </div>

@@ -5,12 +5,17 @@ const userSchema = new mongoose.Schema({
     name : {type : String, required : true},
     email : {type : String, required : true, unique : true},
     password : {type : String, required : true},
+    bio: { type: String, default: "" },
+    avatar: { type: String, default: "" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     ref : {type : mongoose.Schema.Types.ObjectId, ref : 'product'}
 })
 
 userSchema.pre('save', async function(next) {
+    // Update the updatedAt field
+    this.updatedAt = new Date();
+    
     // Only hash the password if it's modified (or new)
     if (!this.isModified('password')) return next();
     

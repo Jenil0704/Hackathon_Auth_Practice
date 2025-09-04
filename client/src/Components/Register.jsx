@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import InputField from "./InputField.jsx";
 import { registerUser } from "../api/auth.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Register({state}) {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -13,6 +14,7 @@ export default function Register({state}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await registerUser(formData.name, formData.email, formData.password);
+    navigate('/');
   };
 
   return (
@@ -50,9 +52,9 @@ export default function Register({state}) {
         </form>
         <p className="mt-4 text-sm text-center">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline" onClick={() => state(true)}>
+          <span className="text-blue-600 hover:underline" onClick={() => state(true)}>
             Login
-          </Link>
+          </span>
         </p>
       </div>
     </div>

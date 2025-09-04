@@ -1,10 +1,13 @@
 import jsonwebtoken from 'jsonwebtoken';
 
 export const signToken = (payload) => {
-    return jsonwebtoken.sign(payload, process.env.JWT_SECRET, {expiresIn : '1h'});
+    const secret = process.env.JWT_SECRET || 'fallback_secret_key_for_development';
+    console.log("Using JWT secret:", secret ? "Secret exists" : "No secret found");
+    return jsonwebtoken.sign(payload, secret, {expiresIn : '1h'});
 }
 
 export const verifyToken = (token) => {
-    const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || 'fallback_secret_key_for_development';
+    const decoded = jsonwebtoken.verify(token, secret);
     return decoded.id;
 }

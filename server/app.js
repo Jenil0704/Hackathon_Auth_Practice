@@ -3,6 +3,7 @@ import connectDB from './src/config/mongo.config.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import authRoutes from './src/routes/authRoutes.js';
+import userRoutes from './src/routes/userRoutes.js';
 import cors from 'cors';
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 
 // routes
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 app.listen(5000, () => {
     connectDB();

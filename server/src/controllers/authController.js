@@ -5,7 +5,13 @@ const register_user = async(req,res)=> {
     const {name, email, password} = req.body;
     const {token, user} = await registerUser(name,email,password);
     req.user = user;
+    
+    console.log("Registration - Setting cookie with token:", token);
+    console.log("Registration - Cookie options:", cookieOptions);
+    
     res.cookie("accessToken", token, cookieOptions);
+    
+    console.log("Registration - Cookie set successfully");
     res.status(200).json({message : "Registration Successful"});
 }
 
@@ -14,7 +20,13 @@ const login_user = async(req,res)=> {
     try{
         const {token, user} = await loginUser(email,password);
         req.user = user;
+        
+        console.log("Setting cookie with token:", token);
+        console.log("Cookie options:", cookieOptions);
+        
         res.cookie("accessToken", token, cookieOptions);
+        
+        console.log("Cookie set successfully");
         res.status(200).json({message : "Login Success"}); 
     }
     catch(error){
