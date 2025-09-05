@@ -6,6 +6,10 @@ import authRoutes from './src/routes/authRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
 import cors from 'cors';
 import productRoutes from './src/routes/productRoutes.js';
+import uploadRoutes from './src/routes/uploadRoutes.js';
+import path from 'path';
+import { notFound, errorHandler } from './src/middlewares/errorHandlers.js';
+
 const app = express();
 
 
@@ -25,6 +29,18 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/uploads", uploadRoutes);
+
+// serve uploaded files
+app.use('/uploads', (req, res, next) => {
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+});
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
+// 404 and error handlers
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(5000, () => {
     connectDB();

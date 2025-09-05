@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../utils/axiosInstance'
 import { getPublicProducts } from '../api/product'
+import LoadingSpinner from '../Components/LoadingSpinner'
 
 const Dashboard = () => {
   const [products, setProducts] = useState([])
@@ -36,6 +37,7 @@ const Dashboard = () => {
           ))}
         </div>
       )}
+      {/* <LoadingSpinner fullscreen text="Loading Products" size={48} thickness={6} color='#10b981' /> */}
     </div>
   )
 }

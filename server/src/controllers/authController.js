@@ -1,7 +1,8 @@
 import { registerUser, loginUser } from "../services/authServices.js"
 import { cookieOptions } from "../config/config.js";
+import HttpError from "../utils/HttpError.js";
 
-const register_user = async(req,res)=> {
+const register_user = async(req,res,next)=> {
     const {name, email, password} = req.body;
     try{
         const {token, user} = await registerUser(name,email,password);
@@ -16,12 +17,11 @@ const register_user = async(req,res)=> {
         res.status(200).json({message : "Registration Successful"});
     }
     catch(error){
-        console.error("Registration error:", error.message);
-        res.status(400).json({message : error.message || "Registration failed"});
+        return next(HttpError.badRequest(error.message || "Registration failed"));
     }
 }
 
-const login_user = async(req,res)=> {
+const login_user = async(req,res,next)=> {
     const {email, password} = req.body;
     try{
         const {token, user} = await loginUser(email,password);
@@ -36,8 +36,7 @@ const login_user = async(req,res)=> {
         res.status(200).json({message : "Login Success"}); 
     }
     catch(error){
-        console.error("Login error:", error.message);
-        res.status(401).json({message : error.message || "Invalid Credentials"});
+        return next(HttpError.unauthorized(error.message || "Invalid Credentials"));
     }
 };
 
