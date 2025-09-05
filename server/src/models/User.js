@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     avatar: { type: String, default: "" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-    ref : {type : mongoose.Schema.Types.ObjectId, ref : 'product'}
+    product_id : {type : mongoose.Schema.Types.ObjectId, ref : 'Product'}
 })
 
 userSchema.pre('save', async function(next) {

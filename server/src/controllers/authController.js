@@ -3,16 +3,22 @@ import { cookieOptions } from "../config/config.js";
 
 const register_user = async(req,res)=> {
     const {name, email, password} = req.body;
-    const {token, user} = await registerUser(name,email,password);
-    req.user = user;
-    
-    console.log("Registration - Setting cookie with token:", token);
-    console.log("Registration - Cookie options:", cookieOptions);
-    
-    res.cookie("accessToken", token, cookieOptions);
-    
-    console.log("Registration - Cookie set successfully");
-    res.status(200).json({message : "Registration Successful"});
+    try{
+        const {token, user} = await registerUser(name,email,password);
+        req.user = user;
+        
+        console.log("Registration - Setting cookie with token:", token);
+        console.log("Registration - Cookie options:", cookieOptions);
+        
+        res.cookie("accessToken", token, cookieOptions);
+        
+        console.log("Registration - Cookie set successfully");
+        res.status(200).json({message : "Registration Successful"});
+    }
+    catch(error){
+        console.error("Registration error:", error.message);
+        res.status(400).json({message : error.message || "Registration failed"});
+    }
 }
 
 const login_user = async(req,res)=> {

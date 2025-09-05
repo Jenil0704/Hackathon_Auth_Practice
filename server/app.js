@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import authRoutes from './src/routes/authRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
 import cors from 'cors';
+import productRoutes from './src/routes/productRoutes.js';
 const app = express();
 
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/products", productRoutes);
 
 app.listen(5000, () => {
     connectDB();

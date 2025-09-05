@@ -11,9 +11,9 @@ const schema = z.object({
 });
 
 
-export default function Login({state}) {
+export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   
@@ -36,10 +36,13 @@ export default function Login({state}) {
         const data = await loginUser(formData.email, formData.password)
         navigate('/');
         setSuccess(true)
+        setErrors("")
         setFormData({ email: '', password: '' })
         console.log(data);
       } catch (err) {
-        setErrors(err.response?.data?.message || 'Login failed. Please try again.')
+        const backendMessage = err?.response?.data?.message;
+        const networkMessage = err?.message;
+        setErrors(backendMessage || networkMessage || 'Login failed. Please try again.');
       } finally {
         setLoading(false)
       }
@@ -70,12 +73,19 @@ export default function Login({state}) {
           >
             Login
           </button>
+          {errors && (
+            <p className="text-red-600 text-sm text-center">{errors}</p>
+          )}
         </form>
         <p className="mt-4 text-sm text-center">
           Don’t have an account?{" "}
-          <span className="text-blue-600 hover:underline" onClick={() => state(false)}>
+          {/* 
+            This is not working because the <Link> component from react-router-dom expects a "to" prop for navigation, 
+            not an "onClick" handler. Replace "onClick={() => navigate('/register')}" with "to='/register'".
+          */}
+          <Link className="text-blue-600 hover:underline" to="/register">
             Register
-          </span>
+          </Link>
         </p>
       </div>
     </div>
